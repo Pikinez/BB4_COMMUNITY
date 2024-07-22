@@ -1,0 +1,85 @@
+--[[ SOLARA SUPPORTS, COLLECT AURAS, [UPD 🚨] Find The Auras [293]
+By BUNBASTER12BLASTER
+Was created for: https://www.roblox.com/games/17589670912/UPD-Find-The-Auras-293
+Script is for [UPD 🚨] Find The Auras [293] we don't accept any risk of ban
+Version: v0.4
+Update Date: 2024-07-22
+Discord Server: https://discord.gg/f7wyd42ws4
+Notice: Created on fast hand with some AI help
+]]--
+
+
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+local function fireProximityPrompt(proximityPrompt, amount, skip)
+    assert(proximityPrompt, "Argument #1 Missing or nil")
+    assert(typeof(proximityPrompt) == "Instance" and proximityPrompt:IsA("ProximityPrompt"), "Attempted to fire a value that is not a ProximityPrompt")
+
+    local holdDuration = proximityPrompt.HoldDuration
+    if skip then
+        proximityPrompt.HoldDuration = 0
+    end
+
+    for _ = 1, amount or 1 do
+        proximityPrompt:InputHoldBegin()
+        if skip then
+            local start = tick()
+            repeat RunService.Heartbeat:Wait() until tick() - start > holdDuration
+        end
+        proximityPrompt:InputHoldEnd()
+    end
+    proximityPrompt.HoldDuration = holdDuration
+end
+
+local function teleportToMorph(morph)
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        workspace.Gravity = 0
+        morph.CanCollide = false
+        morph.Anchored = true
+        local morphPosition = morph.Position + Vector3.new(0, 1, 1.2)
+        character.HumanoidRootPart.CFrame = CFrame.new(morphPosition)
+        wait(0.1)
+        
+        local proximityPrompt = morph:FindFirstChildOfClass("ProximityPrompt")
+        if proximityPrompt then
+            character.HumanoidRootPart.CFrame = CFrame.new(morphPosition)
+            fireProximityPrompt(proximityPrompt)
+            wait(0.5)
+            if morph.Transparency ~= 1 then
+                character.HumanoidRootPart.CFrame = CFrame.new(morphPosition)
+                fireProximityPrompt(proximityPrompt)
+                wait(1)
+            end
+        end
+        
+        workspace.Gravity = 196.2
+    end
+end
+
+
+local function findAndTeleportMorphs()
+    local morphsFolder = game.Workspace:FindFirstChild("Morphs")
+    if not morphsFolder then
+        warn("Morphs folder not found! That means you need to talk about it on discord server")
+        return
+    end
+
+    for _, morph in ipairs(morphsFolder:GetChildren()) do
+        if morph:IsA("BasePart") and morph.Transparency ~= 1 then
+            local proximityPrompt = morph:FindFirstChildOfClass("ProximityPrompt")
+            if proximityPrompt and proximityPrompt.ClickablePrompt==true then
+                teleportToMorph(morph)
+                wait(1)
+            end
+        end
+    end
+
+    workspace.Gravity = 196.2
+end
+
+-- FUNCTION
+findAndTeleportMorphs()
