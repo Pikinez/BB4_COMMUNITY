@@ -1,0 +1,20 @@
+--[[
+By BUNBASTER12BLASTER
+Was checked on: https://www.roblox.com/games/13972889842/Bilberry-City-RP
+Script is universal(For any old/badcreated game) and we don't accept any risk of ban or damage
+Version: v1
+Update Date: 2024-07-22
+Discord Server: https://discord.gg/f7wyd42ws4
+]]--
+
+
+local player = game.Players.LocalPlayer local function BUNBASTER12BLASTER(parent)
+    for _, child in ipairs(parent:GetChildren()) do
+        if child:IsA("BoolValue") then child.Value = true
+        elseif child:IsA("IntValue") or child:IsA("NumberValue") then child.Value = 1
+        elseif child:IsA("StringValue") then child.Value = "true"
+        elseif child:IsA("ObjectValue") or child:IsA("Vector3Value") or child:IsA("CFrameValue") or child:IsA("Color3Value") then print("the bool" .. child.ClassName .. " was ignored")
+        else setValuesToTrue(child)
+        end
+    end
+end BUNBASTER12BLASTER(player)
