@@ -1,0 +1,35 @@
+--[[ SOLARA SUPPORTS, AUTO OBBY, Impossible Squid Game! Glass Bridge!
+By BUNBASTER12BLASTER
+Was created for: https://www.roblox.com/games/13987158269/Impossible-Squid-Game-Glass-Bridge
+Script is for Impossible Squid Game! Glass Bridge! we don't accept any risk of ban
+Version: v0.6
+Update Date: 2024-07-22
+Discord Server: https://discord.gg/f7wyd42ws4
+Notice: Created on fast hand with some AI help
+]]--
+
+
+
+-- TOGGLE SET TO TRUE\FALSE
+_G.AutoComplete = true
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local chestPosition = nil
+
+local function teleportToChest()
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        local Chest = game.Workspace:WaitForChild("Finish"):WaitForChild("Chest")
+        Chest.Size = Vector3.new(1, 1, 1)
+        character.HumanoidRootPart.CFrame = CFrame.new(Chest.Position)
+        workspace.Gravity = 0
+    end
+end
+
+while true do
+    if _G.AutoComplete then 
+        teleportToChest()
+    end
+    wait(5)
+    workspace.Gravity = 196.2
+end
